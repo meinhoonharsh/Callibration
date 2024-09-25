@@ -34,7 +34,7 @@ int thr[5];
 #define BaseSpeed 150
 int lastError = 0;
 float kp = 0.1; // It fully depends on the bot system
-float kd = 0.3;  // Please follow the method provided in instructables to get your values
+float kd = 0.3; // Please follow the method provided in instructables to get your values
 int last_pos = 2000;
 
 // shorthest path parameters
@@ -159,9 +159,14 @@ void calibration()
   Serial.println(thr[4]);
 }
 
+bool w(int pin)
+{
+  return sensorValue[pin] > thr[pin];
+}
+
 bool is_left()
 {
-  if (sensorValue[4] > thr[4] && sensorValue[3] > thr[3] && sensorValue[2] > thr[2])
+  if (w(2) && w(3) && w(4))
   {
     return true;
   }
@@ -170,7 +175,7 @@ bool is_left()
 
 bool is_right()
 {
-  if (sensorValue[2] > thr[2] && sensorValue[1] > thr[1] && sensorValue[0] > thr[0])
+  if (w(0) && w(1) && w(2))
   {
     return true;
   }
@@ -179,7 +184,7 @@ bool is_right()
 
 bool all_black()
 {
-  if (sensorValue[0] < thr[0] && sensorValue[1] < thr[1] && sensorValue[2] < thr[2] && sensorValue[3] < thr[3] && sensorValue[4] < thr[4])
+  if (!w(0) && !w(1) && !w(2) && !w(3) && !w(4))
   {
     return true;
   }
@@ -240,8 +245,8 @@ void follow_segment()
     // FOR BLACK LINE FOLLOWER JUST REPLACE White WITH Black
     int position = qtr.readLineWhite(sensorValue); // Getting the present position of the bot
     int error = 2000 - position;
-     int motorSpeed = kp * error + kd * (error - lastError);
-//    int motorSpeed = kp * error;
+    int motorSpeed = kp * error + kd * (error - lastError);
+    //    int motorSpeed = kp * error;
 
     lastError = error;
     int rightMotorSpeed = BaseSpeed - motorSpeed;
