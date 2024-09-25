@@ -33,7 +33,7 @@ int thr[5];
 #define MaxSpeed 150
 #define BaseSpeed 150
 int lastError = 0;
-float kp = 0.05; // It fully depends on the bot system
+float kp = 0.1; // It fully depends on the bot system
 float kd = 0.3;  // Please follow the method provided in instructables to get your values
 int last_pos = 2000;
 
@@ -161,7 +161,7 @@ void calibration()
 
 bool is_left()
 {
-  if (sensorValue[0] > thr[0] && sensorValue[1] > thr[1] && sensorValue[2] > thr[2])
+  if (sensorValue[4] > thr[4] && sensorValue[3] > thr[3] && sensorValue[2] > thr[2])
   {
     return true;
   }
@@ -170,7 +170,7 @@ bool is_left()
 
 bool is_right()
 {
-  if (sensorValue[2] > thr[2] && sensorValue[3] > thr[3] && sensorValue[4] > thr[4])
+  if (sensorValue[2] > thr[2] && sensorValue[1] > thr[1] && sensorValue[0] > thr[0])
   {
     return true;
   }
@@ -186,21 +186,37 @@ bool all_black()
   return false;
 }
 
-bool intersection_found(){
-  
+bool intersection_found()
+{
+
+  if (is_left())
+  {
+    delay(10);
+    qtr.readLineWhite(sensorValue);
     if (is_left())
     {
       return true;
     }
+  }
+  else if (is_right())
+  {
+    delay(10);
+    qtr.readLineWhite(sensorValue);
     if (is_right())
     {
       return true;
     }
-    else if (all_black())
+  }
+  else if (all_black())
+  {
+    delay(5);
+    qtr.readLineWhite(sensorValue);
+    if (all_black())
     {
       return true;
     }
-    return false;
+  }
+  return false;
 }
 
 void follow_segment()
@@ -224,8 +240,8 @@ void follow_segment()
     // FOR BLACK LINE FOLLOWER JUST REPLACE White WITH Black
     int position = qtr.readLineWhite(sensorValue); // Getting the present position of the bot
     int error = 2000 - position;
-    // int motorSpeed = kp * error + kd * (error - lastError);
-    int motorSpeed = kp * error;
+     int motorSpeed = kp * error + kd * (error - lastError);
+//    int motorSpeed = kp * error;
 
     lastError = error;
     int rightMotorSpeed = BaseSpeed - motorSpeed;
@@ -241,7 +257,8 @@ void follow_segment()
     motor1.drive(rightMotorSpeed);
     motor2.drive(leftMotorSpeed);
 
-    if(intersection_found()){
+    if (intersection_found())
+    {
       return;
     }
     delay(5);
@@ -262,7 +279,7 @@ void maze()
                            // Drive straight a bit. This helps us in case we entered the
                            // intersection at an angle
 
-    //    delay(500);
+    delay(300);
     //    forward(motor1, motor2, 50);
     //    delay(30);
     brake(motor1, motor2);
@@ -276,11 +293,11 @@ void maze()
 
     // Now read the sensors and check the intersection type.
     qtr.readLineWhite(sensorValue);
-    if (sensorValue[3] > thr[3] && sensorValue[4] > thr[4])
+    if (sensorValue[4] > thr[4])
     {
       found_left = 1;
     }
-    if (sensorValue[0] > thr[0] && sensorValue[1] > thr[1])
+    if (sensorValue[1] > thr[1])
     {
       found_right = 1;
     }
