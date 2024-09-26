@@ -123,18 +123,19 @@ void loop()
 void calibration()
 {
 
-  for (int i = 0; i <= 100; i++)
+  for (int i = 0; i <= 300; i++)
   {
 
-    if (i < 25 || i >= 75)
-    {
-      left(motor1, motor2, 100); // Left turn
-    }
-    else
-    {
-
-      right(motor1, motor2, 100); // Right turn
-    }
+    left(motor1, motor2, 100); // Left turn
+                               //    if (i < 25 || i >= 75)
+                               //    {
+                               //      left(motor1, motor2, 100); // Left turn
+                               //    }
+                               //    else
+                               //    {
+                               //
+                               //      right(motor1, motor2, 100); // Right turn
+                               //    }
 
     qtr.calibrate();
     delay(10);
@@ -303,11 +304,11 @@ void maze()
     follow_segment(); // It will follow the path until it dosn't get any intersection
 
     digitalWrite(led, HIGH);
-    //    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
+//    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
     // Drive straight a bit. This helps us in case we entered the
     // intersection at an angle
 
-    //    delay(300);
+//    delay(300);
     //        forward(motor1, motor2, 50);
     //        delay(10);
     //     brake(motor1, motor2);
