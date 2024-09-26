@@ -33,8 +33,8 @@ int thr[5];
 #define MaxSpeed 150
 #define BaseSpeed 150
 int lastError = 0;
-float kp = 0.1; // It fully depends on the bot system
-float kd = 0.3; // Please follow the method provided in instructables to get your values
+float kp = 0.07; // It fully depends on the bot system
+float kd = 0.3;  // Please follow the method provided in instructables to get your values
 int last_pos = 2000;
 
 // shorthest path parameters
@@ -196,6 +196,7 @@ bool intersection_found()
 
   if (is_left())
   {
+    left(motor1, motor2, 100);
     delay(10);
     qtr.readLineWhite(sensorValue);
     if (is_left())
@@ -205,6 +206,7 @@ bool intersection_found()
   }
   else if (is_right())
   {
+    right(motor1, motor2, 100);
     delay(10);
     qtr.readLineWhite(sensorValue);
     if (is_right())
@@ -301,14 +303,14 @@ void maze()
     follow_segment(); // It will follow the path until it dosn't get any intersection
 
     digitalWrite(led, HIGH);
-    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
-                           // Drive straight a bit. This helps us in case we entered the
-                           // intersection at an angle
+    //    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
+    // Drive straight a bit. This helps us in case we entered the
+    // intersection at an angle
 
-    delay(300);
-    //    forward(motor1, motor2, 50);
-    //    delay(30);
-    brake(motor1, motor2);
+    //    delay(300);
+    //        forward(motor1, motor2, 50);
+    //        delay(10);
+    //     brake(motor1, motor2);
 
     // These variables record whether the robot has seen a line to the
     // straight ahead, and right, whil examining the current
@@ -318,7 +320,7 @@ void maze()
     unsigned char found_right = 0;
 
     // Now read the sensors and check the intersection type.
-    qtr.readLineWhite(sensorValue);
+    //  qtr.readLineWhite(sensorValue);
     print_position();
     if (w(4))
     {
