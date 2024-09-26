@@ -223,6 +223,27 @@ bool intersection_found()
   }
   return false;
 }
+void print_position()
+{
+
+  Serial.println("Found an Intersection...");
+  Serial.print(sensorValue[4]);
+  Serial.print("\t");
+  Serial.print(sensorValue[3]);
+  Serial.print("\t");
+  Serial.print(sensorValue[2]);
+  Serial.print("\t");
+  Serial.print(sensorValue[1]);
+  Serial.print("\t");
+  Serial.println(sensorValue[0]);
+
+  Serial.print(w(4));
+  Serial.print(w(3));
+  Serial.print(w(2));
+  Serial.print(w(1));
+  Serial.println(w(0));
+  return;
+}
 
 void follow_segment()
 {
@@ -298,11 +319,12 @@ void maze()
 
     // Now read the sensors and check the intersection type.
     qtr.readLineWhite(sensorValue);
-    if (sensorValue[4] > thr[4])
+    print_position();
+    if (w(4))
     {
       found_left = 1;
     }
-    if (sensorValue[1] > thr[1])
+    if (w(0))
     {
       found_right = 1;
     }
