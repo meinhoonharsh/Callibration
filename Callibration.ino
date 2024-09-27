@@ -126,7 +126,7 @@ void calibration()
   for (int i = 0; i <= 300; i++)
   {
 
-    left(motor1, motor2, 100); // Left turn
+    left(motor1, motor2, 140); // Left turn
                                //    if (i < 25 || i >= 75)
                                //    {
                                //      left(motor1, motor2, 100); // Left turn
@@ -304,11 +304,11 @@ void maze()
     follow_segment(); // It will follow the path until it dosn't get any intersection
 
     digitalWrite(led, HIGH);
-//    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
+    //    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
     // Drive straight a bit. This helps us in case we entered the
     // intersection at an angle
 
-//    delay(300);
+    //    delay(300);
     //        forward(motor1, motor2, 50);
     //        delay(10);
     //     brake(motor1, motor2);
@@ -367,16 +367,17 @@ void maze()
     // Take a turn according to that
     turn(dir);
 
-    // // Store the intersection in the path variable.
-    // path[path_length] = dir;
-    // path_length++;
+     // Store the intersection in the path variable.
+     path[path_length] = dir;
+     path_length++;
+    
 
-    // // Simplify the path for the final run
-    // simplify_path();
+     // Simplify the path for the final run
+     simplify_path();
   }
   // Now the second half is the short run which is obtained after sorting the dry run
   brake(motor1, motor2);
-  delay(40000);
+  //  delay(40000);
   // Move straight a bit on end point and glow a led
   forward(motor1, motor2, 80);
   brake(motor1, motor2);
@@ -388,11 +389,7 @@ void maze()
   digitalWrite(led, HIGH);
   delay(4000);
   digitalWrite(led, LOW);
-  s2 = digitalRead(sw2);
-  while (s2 == HIGH)
-  {
-    s2 = digitalRead(sw2); // Wait for pressing a switch
-  }
+  wait_for_s1();
   delay(800);
   forward(motor1, motor2, 60);
   delay(40);
