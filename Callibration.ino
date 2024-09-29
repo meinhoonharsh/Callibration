@@ -1,3 +1,9 @@
+// Author: RICR - Raj Institute of Coding and Robotics
+// https://ricr.in
+// contact@ricr.in +918889991736
+
+// Maze Follower Robot
+
 // Download below two library on your arduino IDE you will get this from google
 #include <SparkFun_TB6612.h> // This libaray is for sparkfun motor driver
 #include <QTRSensors.h>      // It is for qtr sensors
@@ -367,13 +373,12 @@ void maze()
     // Take a turn according to that
     turn(dir);
 
-     // Store the intersection in the path variable.
-     path[path_length] = dir;
-     path_length++;
-    
+    // Store the intersection in the path variable.
+    path[path_length] = dir;
+    path_length++;
 
-     // Simplify the path for the final run
-     simplify_path();
+    // Simplify the path for the final run
+    simplify_path();
   }
   // Now the second half is the short run which is obtained after sorting the dry run
   brake(motor1, motor2);
