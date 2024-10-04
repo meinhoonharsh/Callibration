@@ -286,7 +286,7 @@ void follow_segment()
   while (1)
   {
 
-    digitalWrite(led, LOW);
+    digitalWrite(led, HIGH);
     // FOR BLACK LINE FOLLOWER JUST REPLACE White WITH Black
     int position = qtr.readLineWhite(sensorValue); // Getting the present position of the bot
     int error = 2000 - position;
@@ -324,7 +324,7 @@ void maze()
 
     follow_segment(); // It will follow the path until it dosn't get any intersection
 
-    digitalWrite(led, HIGH);
+    digitalWrite(led, LOW);
     //    brake(motor1, motor2); // After getting intersetion fist thing that we have to do
     // Drive straight a bit. This helps us in case we entered the
     // intersection at an angle
@@ -406,9 +406,9 @@ void maze()
     Serial.print(path[w]);
     Serial.print(' ');
   }
-  digitalWrite(led, HIGH);
-  delay(4000);
   digitalWrite(led, LOW);
+  delay(4000);
+  digitalWrite(led, HIGH);
   wait_for_s1();
   delay(800);
   forward(motor1, motor2, 60);
@@ -436,9 +436,9 @@ void maze()
     forward(motor1, motor2, 80);
     delay(400);
     brake(motor1, motor2);
-    digitalWrite(led, HIGH);
-    delay(4000);
     digitalWrite(led, LOW);
+    delay(4000);
+    digitalWrite(led, HIGH);
   }
   // Go back to a starting of the main loop
 }
