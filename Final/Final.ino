@@ -133,15 +133,15 @@ void calibration()
   {
 
     left(motor1, motor2, 140); // Left turn
-                               //    if (i < 25 || i >= 75)
-                               //    {
-                               //      left(motor1, motor2, 100); // Left turn
-                               //    }
-                               //    else
-                               //    {
-                               //
-                               //      right(motor1, motor2, 100); // Right turn
-                               //    }
+
+    //    if (i < 25 || i >= 75)
+    //    {
+    //      left(motor1, motor2, 100); // Left turn
+    //    }
+    //    else
+    //    {
+    //      right(motor1, motor2, 100); // Right turn
+    //    }
 
     qtr.calibrate();
     delay(10);
