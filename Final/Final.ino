@@ -213,6 +213,15 @@ bool all_black()
   return false;
 }
 
+bool all_white()
+{
+  if (w(0) && w(1) && w(2) && w(3) && w(4))
+  {
+    return true;
+  }
+  return false;
+}
+
 bool intersection_found()
 {
 
@@ -366,7 +375,7 @@ void maze()
     }
 
     // Check for the ending spot.
-    if (w(0) && w(1) && w(2) && w(3) && w(4))
+    if (all_white())
     {
       //    Yeh break ko uncomment karna hai
 
@@ -374,7 +383,7 @@ void maze()
       delay(300);
       brake(motor1, motor2);
 
-      if (w(0) && w(1) && w(2) && w(3) && w(4))
+      if (all_white())
         break;
     }
 
@@ -396,6 +405,7 @@ void maze()
     simplify_path();
   }
   // Now the second half is the short run which is obtained after sorting the dry run
+
   brake(motor1, motor2);
   //  delay(40000);
   // Move straight a bit on end point and glow a led
@@ -417,28 +427,37 @@ void maze()
   delay(40);
   forward(motor1, motor2, 100);
   delay(40);
-  while (1)
+
+  // Final Run
+  int k;
+  for (k = 0; k < path_length; k++)
   {
-    int k;
-    for (k = 0; k < path_length; k++)
-    {
-      follow_segment();
-      forward(motor1, motor2, 50); // After reaching a intercetion follow the shortest path turn
-      delay(50);
-      forward(motor1, motor2, 60);
-      delay(200);
-      brake(motor1, motor2);
-      delay(5);
-      turn(path[k]);
-    }
     follow_segment();
+    forward(motor1, motor2, 50); // After reaching a intercetion follow the shortest path turn
+    delay(50);
+    forward(motor1, motor2, 60);
+    delay(200);
     brake(motor1, motor2);
-    forward(motor1, motor2, 80);
-    delay(400);
+    delay(5);
+    turn(path[k]);
+  }
+  follow_segment();
+  brake(motor1, motor2);
+  forward(motor1, motor2, 80);
+  delay(200);
+  brake(motor1, motor2);
+
+  if (all_white())
+  {
+    forward(motor1, motor2, 140);
+    delay(200);
     brake(motor1, motor2);
-    digitalWrite(led, LOW);
-    delay(4000);
-    digitalWrite(led, HIGH);
+    qtr.readLineWhite(sensorValue);
+    if (all_white())
+    {
+      digitalWrite(led, LOW);
+      wait_for_s1();
+    }
   }
   // Go back to a starting of the main loop
 }
