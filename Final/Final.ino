@@ -626,7 +626,7 @@ void follow_segment2()
   for (int j = 0; j < 70; j++)
   {
     int position = qtr.readLineWhite(sensorValue); // FOR BLACK LINE FOLLOWER JUST REPLACE White WITH Black
-    int error = 3500 - position;
+    int error = 2000 - position;
     int motorSpeed = Kp * error + Kd * (error - lastError);
     lastError = error;
     int rightMotorSpeed = baseSpeed + motorSpeed;
@@ -652,7 +652,7 @@ void follow_segment3()
   for (int j = 0; j < 10; j++)
   {
     int position = qtr.readLineWhite(sensorValue); // FOR BLACK LINE FOLLOWER JUST REPLACE White WITH Black
-    int error = 3500 - position;
+    int error = 2000 - position;
     int motorSpeed = Kp * error + Kd * (error - lastError);
     lastError = error;
     int rightMotorSpeed = BaseSpeed - motorSpeed;
