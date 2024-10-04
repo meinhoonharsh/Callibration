@@ -259,11 +259,11 @@ void follow_segment()
 
   //  while(1){
   //    qtr.readLineWhite(sensorValue);
-  //    Serial.print(sensorValue[0] > thr[0]);
-  //    Serial.print(sensorValue[1] > thr[1]);
-  //    Serial.print(sensorValue[2] > thr[2]);
-  //    Serial.print(sensorValue[3] > thr[3]);
-  //    Serial.println(sensorValue[4] > thr[4]);
+  //    Serial.print(w(0));
+  //    Serial.print(w(1));
+  //    Serial.print(w(2));
+  //    Serial.print(w(3));
+  //    Serial.println(w(4));
   //    delay(5);
   //
   //  }
@@ -345,13 +345,13 @@ void maze()
     delay(300);
     brake(motor1, motor2);
     qtr.readLineWhite(sensorValue);
-    if (sensorValue[1] > thr[1] || sensorValue[2] > thr[2] || sensorValue[3] > thr[3])
+    if (w(1) || w(2) || w(3))
     {
       found_straight = 1;
     }
 
     // Check for the ending spot.
-    if (sensorValue[0] > thr[0] && sensorValue[1] > thr[1] && sensorValue[2] > thr[2] && sensorValue[3] > thr[3] && sensorValue[4] > thr[4])
+    if (w(0) && w(1) && w(2) && w(3) && w(4))
     {
       //    Yeh break ko uncomment karna hai
 
@@ -359,7 +359,7 @@ void maze()
       delay(300);
       brake(motor1, motor2);
 
-      if (sensorValue[0] > thr[0] && sensorValue[1] > thr[1] && sensorValue[2] > thr[2] && sensorValue[3] > thr[3] && sensorValue[4] > thr[4])
+      if (w(0) && w(1) && w(2) && w(3) && w(4))
         break;
     }
 
@@ -462,13 +462,13 @@ void turn(char dir)
   case 'L':
     left(motor1, motor2, 240);
     qtr.readLineWhite(sensorValue);
-    while (sensorValue[4] > thr[4])
+    while (w(4))
     {
       line_position = qtr.readLineWhite(sensorValue); // Move left until left extreme sensor goes out of the white line comes on black
     }
     left(motor1, motor2, 120);
     qtr.readLineWhite(sensorValue);
-    while (sensorValue[4] < thr[4])
+    while (!w(4))
     {
       line_position = qtr.readLineWhite(sensorValue); // Again move left until it get's on white line
     }
@@ -478,13 +478,13 @@ void turn(char dir)
   case 'R':
     right(motor1, motor2, 240);
     qtr.readLineWhite(sensorValue);
-    while (sensorValue[0] > thr[0])
+    while (w(0))
     {
       line_position = qtr.readLineWhite(sensorValue); // Move right until left extreme sensor goes out of the white line comes on black
     }
     right(motor1, motor2, 120);
     qtr.readLineWhite(sensorValue);
-    while (sensorValue[0] < thr[0])
+    while (!w(0))
     {
       line_position = qtr.readLineWhite(sensorValue); // Again move right until it get's on white line
     }
@@ -494,13 +494,13 @@ void turn(char dir)
   case 'B':
     right(motor1, motor2, 240);
     qtr.readLineWhite(sensorValue);
-    while (sensorValue[0] > thr[0])
+    while (w(0))
     {
       line_position = qtr.readLineWhite(sensorValue); // Take u turn using right turn
     }
     right(motor1, motor2, 120);
     qtr.readLineWhite(sensorValue);
-    while (sensorValue[0] < thr[0])
+    while (!w(0))
     {
       line_position = qtr.readLineWhite(sensorValue);
     }
