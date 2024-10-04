@@ -25,7 +25,6 @@ const int offsetB = 1;
 #define led A0
 int s1;
 int s2;
-int chr = 1;
 char dir;
 int obs1;
 int obs = 2;
@@ -36,11 +35,12 @@ unsigned int sensorValue[5];
 int thr[5];
 
 // User Defined Parameters
+int chr = 1; // 1 for LHS and 2 for RHS
 #define MaxSpeed 150
 #define BaseSpeed 150
 #define TurnSpeed1 240
 #define TurnSpeed2 120
-#define CallibrationMode 2
+#define CallibrationMode 2 // 1 for Circle and 2 for Pendulum
 #define CallibrationSpeed 140
 
 int lastError = 0;
@@ -494,13 +494,13 @@ void turn(char dir)
   switch (dir)
   {
   case 'L':
-    left(motor1, motor2, 240);
+    left(motor1, motor2, TurnSpeed1);
     qtr.readLineWhite(sensorValue);
     while (w(4))
     {
       line_position = qtr.readLineWhite(sensorValue); // Move left until left extreme sensor goes out of the white line comes on black
     }
-    left(motor1, motor2, 120);
+    left(motor1, motor2, TurnSpeed2);
     qtr.readLineWhite(sensorValue);
     while (!w(4))
     {
@@ -510,13 +510,13 @@ void turn(char dir)
     brake(motor1, motor2);
     break;
   case 'R':
-    right(motor1, motor2, 240);
+    right(motor1, motor2, TurnSpeed1);
     qtr.readLineWhite(sensorValue);
     while (w(0))
     {
       line_position = qtr.readLineWhite(sensorValue); // Move right until left extreme sensor goes out of the white line comes on black
     }
-    right(motor1, motor2, 120);
+    right(motor1, motor2, TurnSpeed2);
     qtr.readLineWhite(sensorValue);
     while (!w(0))
     {
@@ -526,13 +526,13 @@ void turn(char dir)
     brake(motor1, motor2);
     break;
   case 'B':
-    right(motor1, motor2, 240);
+    right(motor1, motor2, TurnSpeed1);
     qtr.readLineWhite(sensorValue);
     while (w(0))
     {
       line_position = qtr.readLineWhite(sensorValue); // Take u turn using right turn
     }
-    right(motor1, motor2, 120);
+    right(motor1, motor2, TurnSpeed2);
     qtr.readLineWhite(sensorValue);
     while (!w(0))
     {
