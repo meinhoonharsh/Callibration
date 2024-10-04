@@ -35,9 +35,14 @@ int obs = 2;
 unsigned int sensorValue[5];
 int thr[5];
 
-// Initialization of PID parameter
+// User Defined Parameters
 #define MaxSpeed 150
 #define BaseSpeed 150
+#define TurnSpeed1 240
+#define TurnSpeed2 120
+#define CallibrationMode 2
+#define CallibrationSpeed 140
+
 int lastError = 0;
 float kp = 0.07; // It fully depends on the bot system
 float kd = 0.3;  // Please follow the method provided in instructables to get your values
@@ -129,23 +134,33 @@ void loop()
 void calibration()
 {
 
-  for (int i = 0; i <= 300; i++)
+  if (CallibrationMode == 1)
   {
+    for (int i = 0; i <= 200; i++)
+    {
+      left(motor1, motor2, CallibrationSpeed);
+      qtr.calibrate();
+      delay(10);
+    }
+  }
+  else
+  {
+    for (int i = 0; i <= 200; i++)
+    {
+      if (i < 25 || (i >= 75 && i < 125) || (i >= 175))
+      {
+        left(motor1, motor2, CallibrationSpeed);
+      }
+      else
+      {
+        right(motor1, motor2, CallibrationSpeed);
+      }
 
-    left(motor1, motor2, 140); // Left turn
+      qtr.calibrate();
+      delay(10);
+    }
+  }
 
-    //    if (i < 25 || i >= 75)
-    //    {
-    //      left(motor1, motor2, 100); // Left turn
-    //    }
-    //    else
-    //    {
-    //      right(motor1, motor2, 100); // Right turn
-    //    }
-
-    qtr.calibrate();
-    delay(10);
-  } // end calibration cycle
   brake(motor1, motor2);
   for (int i = 0; i < NUM_SENSORS; i++)
   {
